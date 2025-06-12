@@ -1,13 +1,13 @@
 import React from 'react';
-import Header from './components/Header';
-import EmployeeGrid from './components/EmployeeGrid';
-import './App.css';
+import Header from './Components/Header';
+import EmployeeGrid from './Components/EmployeeGrid';
+import APIComponent from './Components/APIComponent';
+import Customer from './Components/Pages/Customer/Customer';
 
 function App() {
   return (
     <div id="app">
-      <Header />
-      <EmployeeGrid />
+      <Customer />
     </div>
   );
 }

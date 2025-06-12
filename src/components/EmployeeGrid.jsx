@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+// import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 
 const columns = [
@@ -36,13 +36,13 @@ const EmployeeGrid = () => {
   return (
     <>
       <h2 style={{ color: '#000' }}>Employee Directory List</h2>
-      <div style={{ width: '90%' }} class="employGrid">
-        <DataGrid
+      <div style={{ width: '90%' }} className="employGrid">
+        {/* <DataGrid
           rows={rows}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10, 20, 50]}
-        />
+        /> */}
       </div>
     </>
   );
