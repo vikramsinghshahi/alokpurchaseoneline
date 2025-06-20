@@ -110,16 +110,16 @@ export const AgDataGridServices = {
         }
         params.api.onFilterChanged();
       } else {
-        const allColIds = params.columnApi
-          .getAllColumns()
-          .filter(
-            (v) =>
-              v.colDef &&
-              v.colDef.cellEditorParams &&
-              !v.colDef.cellEditorParams.skipAutoResize
-          )
-          .map((column) => column.colId);
-        params.columnApi.autoSizeColumns(allColIds);
+        // const allColIds = params.columnApi
+        //   .getAllColumns()
+        //   .filter(
+        //     (v) =>
+        //       v.colDef &&
+        //       v.colDef.cellEditorParams &&
+        //       !v.colDef.cellEditorParams.skipAutoResize
+        //   )
+        //   .map((column) => column.colId);
+        // params.columnApi.autoSizeColumns(allColIds);
       }
     }
     if (synChanges) {

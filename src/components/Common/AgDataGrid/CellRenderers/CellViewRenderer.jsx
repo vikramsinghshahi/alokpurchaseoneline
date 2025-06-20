@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { any } from 'prop-types';
 // import moment from 'moment';
 // import { Tooltip as ReactTooltip } from 'react-tooltip'
@@ -19,9 +19,9 @@ import { isObject } from '../../Utils/CommonUtils';
 // import Refresh from '../../Icons/Refresh';
 // import ShelfIcon from '../../Icons/ShelfIcon';
 // import SWI from '../../Icons/SWI';
-// // import Truck from '../../Icons/Truck';
-// // import Air from '../../Icons/Air';
-// // import Sea from '../../Icons/Sea';
+// import Truck from '../../Icons/Truck';
+// import Air from '../../Icons/Air';
+// import Sea from '../../Icons/Sea';
 // import Docs from '../../Icons/Docs';
 // import LogIcon from '../../Icons/LogIcon';
 // import PriceListView from '../../Icons/PriceListView';
@@ -30,15 +30,29 @@ import { isObject } from '../../Utils/CommonUtils';
 
 // import AddressPopUp from './AddressPopUp'
 
-const CellViewRenderer = (props) => {
-  const [showInfoPopup, setShowInfoPopup] = useState(false);
-  const [showErrorInfoPopup, setShowErrorInfoPopup] = useState(false);
+export default class CellViewRenderer extends Component {
+  static propTypes = {
+    colDef: any,
+    value: any,
+    gridChanges: any,
+    data: any,
+    node: any,
+    columnProperty: any,
+    api: any,
+    gridRef: any,
+    props: any,
+  };
 
-  const onValidatedCellMessage = () => {
+  onValidatedCellMessage = () => {
     // ReactTooltip.hide();
   };
 
-  const renderDate = (value, time) => {
+  state = {
+    showInfoPopup: false,
+    showErrorInfoPopup: false,
+  };
+
+  renderDate = (value, time) => {
     if (!value) {
       return '';
     }
@@ -47,10 +61,11 @@ const CellViewRenderer = (props) => {
       moment.parseZone(value).format('DD-MM-YYYY') === 'Invalid date'
         ? null
         : value && moment.parseZone(value).format(timeFormat);
+
     return formatDate;
   };
 
-  const renderCurrency = (value) => {
+  renderCurrency = (value) => {
     if (value === undefined || value === 0) {
       return (
         <span id="data-value">
@@ -78,7 +93,7 @@ const CellViewRenderer = (props) => {
     return value;
   };
 
-  const renderPercentage = (value) => {
+  renderPercentage = (value) => {
     const numericValue = parseFloat(value);
     if (Number.isNaN(numericValue)) {
       return value;
@@ -91,15 +106,20 @@ const CellViewRenderer = (props) => {
     return `${percentValue}%`;
   };
 
-  const renderErrorInfo = (value) => {
+  renderErrorInfo = (value) => {
     if (!value) return null;
     const errorInfo = JSON.parse(value);
+    const { showErrorInfoPopup } = this.state;
     return (
       <div className="data-view" style={{ textAlign: 'center' }}>
         {(isObject(errorInfo) && Object.keys(errorInfo).length) ||
         (!isObject(errorInfo) && errorInfo) ? (
           <span
-            onClickCapture={() => setShowErrorInfoPopup(true)}
+            onClickCapture={() => {
+              this.setState({
+                showErrorInfoPopup: true,
+              });
+            }}
             style={{
               color: 'red',
               display: 'inline-block',
@@ -111,14 +131,16 @@ const CellViewRenderer = (props) => {
         {showErrorInfoPopup && (
           <ErrorInfo
             value={value}
-            closeInfoModal={() => setShowErrorInfoPopup(false)}
+            closeInfoModal={() => {
+              this.setState({ showErrorInfoPopup: false });
+            }}
           />
         )}
       </div>
     );
   };
 
-  const renderQuill = (value) => {
+  renderQuill = (value) => {
     const span = document.createElement('span');
     span.innerHTML = value;
     return (
@@ -133,19 +155,24 @@ const CellViewRenderer = (props) => {
     );
   };
 
-  const renderNumber = (
+  renderNumber = (
     value,
     thousandSeparator,
     showThousandSeparator,
     tempNumber = false
   ) => {
+    // Check if value is a valid number
     if (tempNumber && value === 0) {
       return value;
     }
     if (value === null || value === undefined || isNaN(Number(value))) {
       return null;
     }
+
+    // Convert value to a number to ensure it's valid
     const numericValue = Number(value);
+
+    // Format number with 2 decimal places
     const formatNumber =
       showThousandSeparator &&
       (thousandSeparator === undefined || thousandSeparator)
@@ -153,12 +180,13 @@ const CellViewRenderer = (props) => {
             minimumFractionDigits: 3,
             maximumFractionDigits: 3,
           }).format(numericValue)
-        : numericValue;
+        : numericValue; // Fallback for no thousand separator, ensure 2 decimal points
+
     return formatNumber;
   };
 
-  const handleView = () => {
-    // const { value } = props;
+  handleView = () => {
+    // const { value } = this.props;
     // if (value && value.s3FileUpload) {
     //   getSignedURLByID(value.id).then((res) => {
     //     window.open(res);
@@ -166,7 +194,7 @@ const CellViewRenderer = (props) => {
     // }
   };
 
-  const renderViewTypeButton = (type, shelfLifeColor, logColor) => {
+  renderViewTypeButton = (type, shelfLifeColor, logColor) => {
     switch (type) {
       case 'shelfLife':
         return <ShelfIcon width={18} height={18} fill={shelfLifeColor} />;
@@ -190,375 +218,443 @@ const CellViewRenderer = (props) => {
     }
   };
 
-  // Main render logic
-  const {
-    colDef,
-    data,
-    value,
-    gridChanges,
-    node,
-    columnProperty,
-    gridRef,
-    api,
-    props: cellProps,
-  } = props;
-  const { field, cellEditorParams, cellRendererParams } = colDef;
-  const {
-    cell,
-    cellProps: ceCellProps,
-    dynamicProps,
-    handleClick,
-    contentAlign,
-  } = cellEditorParams || {};
-  const evaluationProps =
-    cell || ceCellProps || (dynamicProps && dynamicProps(props));
-  const {
-    valueKey,
-    labelKey,
-    isMulti,
-    type,
-    options,
-    enableHover,
-    syncPackageCode,
-    isLink,
-    defaultTextValue,
-    prefix,
-    time,
-    thousandSeparator,
-    renderedValue,
-    tempNumber,
-    showShelfLifeIcon,
-    showThousandSeparator,
-    viewIconType,
-    handlePriceList,
-    handleShipmentby,
-    truckColor,
-    seaColor,
-    airColor,
-    logColor,
-    shelfLifeColor,
-    isSeaAvailable,
-    isTruckAvailable,
-    isAirAvailable,
-    isServicesAvailable,
-  } = evaluationProps || {};
+  render() {
+    const {
+      colDef,
+      data,
+      value,
+      gridChanges,
+      node,
+      columnProperty,
+      gridRef,
+      api,
+      props,
+    } = this.props;
+    const { field, cellEditorParams, cellRendererParams } = colDef;
+    const { cell, cellProps, dynamicProps, handleClick, contentAlign } =
+      cellEditorParams || {};
+    const evaluationProps =
+      cell || cellProps || (dynamicProps && dynamicProps(this.props));
+    const {
+      valueKey,
+      labelKey,
+      isMulti,
+      type,
+      options,
+      enableHover,
+      syncPackageCode,
+      isLink,
+      defaultTextValue,
+      prefix,
+      time,
+      thousandSeparator,
+      renderedValue,
+      tempNumber,
+      showShelfLifeIcon,
+      showThousandSeparator,
+      viewIconType,
+      handlePriceList,
+      handleShipmentby,
+      truckColor,
+      seaColor,
+      airColor,
+      logColor,
+      shelfLifeColor,
+      isSeaAvailable,
+      isTruckAvailable,
+      isAirAvailable,
+      isServicesAvailable,
+    } = evaluationProps || {};
 
-  const currentColumnDef = (api && api.getColumnDefs()) || [];
-  const actionColumn = (currentColumnDef || []).find(
-    (v) => v.colId === 'action'
-  );
-  const isFirstCell =
-    currentColumnDef &&
-    currentColumnDef[0] &&
-    currentColumnDef[0].field === field;
-
-  let errorMessage = null;
-  let rowKey = 'id';
-  if (
-    cellRendererParams &&
-    cellRendererParams.props &&
-    cellRendererParams.props.rowKey
-  ) {
-    rowKey =
-      (cellRendererParams.props && cellRendererParams.props.rowKey) || 'id';
-  }
-  if (gridChanges) {
-    const validatedRow = gridChanges.validationError.find(
-      (row) => row.rowID == node.data[rowKey]
+    const currentColumnDef = (api && api.getColumnDefs()) || [];
+    const actionColumn = (currentColumnDef || []).find(
+      (v) => v.colId === 'action'
     );
-    errorMessage =
-      validatedRow &&
-      validatedRow.messages.find((message) => message.column === field);
-  }
+    const isFirstCell =
+      currentColumnDef &&
+      currentColumnDef[0] &&
+      currentColumnDef[0].field === field;
 
-  const { newRowDelete } = cellProps || {};
+    let errorMessage = null;
+    let rowKey = 'id';
+    if (
+      cellRendererParams &&
+      cellRendererParams.props &&
+      cellRendererParams.props.rowKey
+    ) {
+      rowKey =
+        (cellRendererParams.props && cellRendererParams.props.rowKey) || 'id';
+    }
+    if (gridChanges) {
+      const validatedRow = gridChanges.validationError.find(
+        // eslint-disable-next-line eqeqeq
+        (row) => row.rowID == node.data[rowKey]
+      );
+      errorMessage =
+        validatedRow &&
+        validatedRow.messages.find((message) => message.column === field);
+    }
 
-  let input = null;
-  switch (type) {
-    case 'dataGridDropDown':
-    case 'select': {
-      if (isMulti) {
-        const selectedOption =
-          value &&
-          value.length &&
-          value.map((v) => {
-            const option = (options || []).find(
-              (o) => o[valueKey] === v[valueKey]
-            );
-            return (option && option[labelKey]) || '';
-          });
+    const { newRowDelete } = props || {};
+
+    let input = null;
+    switch (type) {
+      case 'dataGridDropDown':
+      case 'select': {
+        if (isMulti) {
+          const selectedOption =
+            value &&
+            value.length &&
+            value.map((v) => {
+              const option = (options || []).find(
+                (o) => o[valueKey] === v[valueKey]
+              );
+              return (option && option[labelKey]) || '';
+            });
+          input = `${
+            (selectedOption && selectedOption.join(', ')) || value || ''
+          }`;
+          break;
+        }
+        const selectedOption = (options || []).find(
+          (option) => value && option[valueKey] === value
+        );
         input = `${
-          (selectedOption && selectedOption.join(', ')) || value || ''
+          (selectedOption && selectedOption[labelKey]) || value || ''
         }`;
         break;
       }
-      const selectedOption = (options || []).find(
-        (option) => value && option[valueKey] === value
-      );
-      input = `${(selectedOption && selectedOption[labelKey]) || value || ''}`;
-      break;
-    }
-    // case 'address': {
-    //   input = (
-    //     <AddressPopUp
-    //       {...props}
-    //       edit={false}
-    //       importAddressData={importAddressData}
-    //       fieldKeys={addressFieldKeys}
-    //     />
-    //   );
-    //   break;
-    // }
-    case 'phone': {
-      input = value;
-      break;
-    }
-    case 'multiFileUpload': {
-      input = <MultiFileUpload {...props} edit={false} />;
-      break;
-    }
-    case 'date': {
-      input = renderDate(value, time);
-      break;
-    }
-    case 'hidden': {
-      return null;
-    }
-    case 'switch': {
-      input = value ? <True /> : <False />;
-      break;
-    }
-    case 'switch2': {
-      input = value ? 'Active' : 'Inactive';
-      break;
-    }
-    case 'currency': {
-      input = renderCurrency(value);
-      break;
-    }
-    case 'percent': {
-      input = renderPercentage(value);
-      break;
-    }
-    case 'errorInfo': {
-      input = renderErrorInfo(value);
-      break;
-    }
-    case 'defaultText':
-      input = prefix ? `${prefix}${defaultTextValue}` : defaultTextValue;
-      break;
-    case 'quill': {
-      input = renderQuill(value);
-      break;
-    }
-    case 'number': {
-      input = renderNumber(
-        value,
-        thousandSeparator,
-        showThousandSeparator,
-        tempNumber
-      );
-      break;
-    }
-    case 'file': {
-      input = (
-        <span className="link" onClickCapture={handleView}>
-          {value && value.name}
-        </span>
-      );
-      break;
-    }
-    case 'view': {
-      input = (
-        <span className="viewButton">
-          {renderViewTypeButton(viewIconType, shelfLifeColor, logColor)}
-        </span>
-      );
-      break;
-    }
-    case 'text':
-    default:
-      input = value;
-      break;
-  }
-
-  if (evaluationProps && 'renderedValue' in evaluationProps) {
-    input = evaluationProps.renderedValue;
-  }
-
-  const spanType =
-    type === 'link' || isLink || type === 'view'
-      ? {
-          className: 'ag-grid-custom-text-view-value button',
-          onClick: () => handleClick && handleClick(data),
-        }
-      : {
-          className: 'ag-grid-custom-text-view-value',
-        };
-  spanType.style = {
-    width: `${
-      100 -
-      [enableHover, syncPackageCode, errorMessage].filter((e) => e).length * 7
-    }%`,
-  };
-  const classNameArr = ['ag-grid-custom-text-view'];
-  if (contentAlign) classNameArr.push(contentAlign);
-  return (
-    <div className={classNameArr.join(' ')}>
-      {isFirstCell &&
-      !columnProperty.isServerSide &&
-      !actionColumn &&
-      data?.isNewRow &&
-      !(newRowDelete === false) ? (
-        <span
-          className="newRowDelete"
-          type="button"
-          ref={(ref) => {
-            if (!ref) return;
-            ref.onclick = (e) => {
-              e.stopPropagation();
-              columnProperty.removeRow(
-                data,
-                gridRef,
-                cellRendererParams.props,
-                columnProperty.gridType
-              );
-              setTimeout(() => {
-                if (api && api.redrawRows) {
-                  api.redrawRows();
-                }
-              }, 100);
-            };
-          }}
-        >
-          <Delete />
-        </span>
-      ) : (
-        <></>
-      )}
-      <span {...spanType}>{input}</span>
-      {enableHover ||
-      syncPackageCode ||
-      errorMessage ||
-      evaluationProps?.viewCs ||
-      evaluationProps?.showWarning ? (
-        <div className="info-syn-icon-container">
-          {errorMessage && (
-            <span
-              role="button"
-              tabIndex={0}
-              onKeyUp={() => onValidatedCellMessage(errorMessage)}
-              onClick={onValidatedCellMessage}
-              data-tip={errorMessage.message}
-              className="ag-grid-custom-text-view-validation"
-              data-type="error"
-              data-effect="solid"
-              data-for="cellError"
-              data-tooltip-id="cellError"
-              data-tooltip-content={errorMessage.message}
-              data-tooltip-place="left"
-            >
-              !
-            </span>
-          )}
-          {evaluationProps.showWarning && (
-            <span
-              role="button"
-              tabIndex={0}
-              onKeyUp={() =>
-                onValidatedCellMessage(evaluationProps.warningInfo)
-              }
-              onClick={onValidatedCellMessage}
-              data-tip={evaluationProps.warningInfo}
-              className="ag-grid-custom-text-view-warning"
-              data-type="warning"
-              data-effect="solid"
-              data-for="cellWarning"
-            >
-              !
-            </span>
-          )}
-          {evaluationProps.showlogs && (
-            <span
-              role="button"
-              tabIndex={0}
-              onKeyUp={() => onValidatedCellMessage(evaluationProps.logInfo)}
-              onClick={onValidatedCellMessage}
-              className="ag-grid-custom-text-view-log"
-              data-tooltip-id="cellError"
-              data-tooltip-content={evaluationProps.logsInfo}
-              data-tooltip-place="left"
-              aria-label="refreshForRate"
-            >
-              !
-            </span>
-          )}
-          {evaluationProps.viewCs && (
-            <span
-              role="button"
-              tabIndex={0}
-              onKeyUp={() =>
-                onValidatedCellMessage(evaluationProps.warningInfo)
-              }
+      // case 'address': {
+      //   input = (
+      //     <AddressPopUp
+      //       {...this.props}
+      //       edit={false}
+      //       importAddressData={importAddressData}
+      //       fieldKeys={addressFieldKeys}
+      //     />
+      //   );
+      //   break;
+      // }
+      case 'phone': {
+        input = value;
+        break;
+      }
+      case 'multiFileUpload': {
+        input = <MultiFileUpload {...this.props} edit={false} />;
+        break;
+      }
+      case 'date': {
+        input = this.renderDate(value, time);
+        break;
+      }
+      case 'hidden': {
+        return null;
+      }
+      case 'switch': {
+        input = value ? <True /> : <False />;
+        break;
+      }
+      case 'switch2': {
+        input = value ? 'Active' : 'Inactive';
+        break;
+      }
+      case 'currency': {
+        input = this.renderCurrency(value);
+        break;
+      }
+      case 'percent': {
+        input = this.renderPercentage(value);
+        break;
+      }
+      case 'errorInfo': {
+        input = this.renderErrorInfo(value);
+        break;
+      }
+      case 'defaultText':
+        input = prefix ? `${prefix}${defaultTextValue}` : defaultTextValue;
+        break;
+      case 'quill': {
+        input = this.renderQuill(value);
+        break;
+      }
+      case 'number': {
+        input = this.renderNumber(
+          value,
+          thousandSeparator,
+          showThousandSeparator,
+          tempNumber
+        );
+        break;
+      }
+      case 'file': {
+        input = (
+          <span className="link" onClickCapture={this.handleView}>
+            {value && value.name}
+          </span>
+        );
+        break;
+      }
+      case 'view': {
+        input = (
+          <span className="viewButton">
+            {this.renderViewTypeButton(viewIconType, shelfLifeColor, logColor)}
+          </span>
+        );
+        break;
+      }
+      case 'priceList': {
+        input = (
+          <span className="viewButton priceListCell">
+            <button
               onClick={() => {
-                const { onviewCsClick } = evaluationProps;
-
-                onValidatedCellMessage();
-                if (onviewCsClick) {
-                  onviewCsClick(data);
+                if (handlePriceList) {
+                  handlePriceList(data, 'view');
                 }
               }}
-              data-tip={evaluationProps.warningInfo}
-              className="ag-grid-custom-text-view-warning"
-              data-tooltip-id="cellError"
-              data-tooltip-content="View Simulation Cost"
-              data-tooltip-place="left"
-              aria-label="cs"
+              aria-label="View Price List"
             >
-              <CSIcon />
-            </span>
-          )}
-          {evaluationProps.viewRefreshCell && (
-            <span
-              role="button"
-              tabIndex={0}
-              onKeyUp={() =>
-                onValidatedCellMessage(evaluationProps.warningInfo)
-              }
+              <PriceListView width={18} height={18} />
+            </button>
+            <button
               onClick={() => {
-                const { refreshCell } = evaluationProps;
-
-                if (refreshCell) {
-                  refreshCell(data);
+                if (handlePriceList) {
+                  handlePriceList(data, 'add');
                 }
               }}
-              className="ag-grid-custom-text-view-warning ag-grid-custom-text-refresh-cell"
-              data-tooltip-id="cellError"
-              data-tooltip-content="Refresh For Rate"
-              data-tooltip-place="left"
-              aria-label="refreshForRate"
+              aria-label="Add Price List"
             >
-              <Refresh />
-            </span>
-          )}
-        </div>
-      ) : (
-        <></>
-      )}
-    </div>
-  );
-};
+              <PriceListUpload width={18} height={18} />
+            </button>
+          </span>
+        );
+        break;
+      }
+      case 'viewShipments': {
+        input = (
+          <span className="viewButton priceListCell">
+            {isSeaAvailable && (
+              <button
+                onClick={() => {
+                  if (handleShipmentby) {
+                    handleShipmentby(data, 'sea');
+                  }
+                }}
+                aria-label="View Sea"
+              >
+                <Sea width={18} height={18} fill={seaColor} />
+              </button>
+            )}
+            {isAirAvailable && (
+              <button
+                onClick={() => {
+                  if (handleShipmentby) {
+                    handleShipmentby(data, 'air');
+                  }
+                }}
+                aria-label="View Air"
+              >
+                <Air width={18} height={18} fill={airColor} />
+              </button>
+            )}
+            {isTruckAvailable && (
+              <button
+                onClick={() => {
+                  if (handleShipmentby) {
+                    handleShipmentby(data, 'truck');
+                  }
+                }}
+                aria-label="View Truck"
+              >
+                <Truck width={18} height={18} fill={truckColor} />
+              </button>
+            )}
+          </span>
+        );
+        break;
+      }
+      case 'text':
+      default:
+        input = value;
+        break;
+    }
 
-CellViewRenderer.propTypes = {
-  colDef: any,
-  value: any,
-  gridChanges: any,
-  data: any,
-  node: any,
-  columnProperty: any,
-  api: any,
-  gridRef: any,
-  props: any,
-};
+    if (evaluationProps && 'renderedValue' in evaluationProps) {
+      input = evaluationProps.renderedValue;
+    }
 
-export default CellViewRenderer;
+    const spanType =
+      type === 'link' || isLink || type === 'view'
+        ? {
+            className: 'ag-grid-custom-text-view-value button',
+            onClick: () => handleClick(data),
+          }
+        : {
+            className: 'ag-grid-custom-text-view-value',
+          };
+    spanType.style = {
+      width: `${
+        100 -
+        [enableHover, syncPackageCode, errorMessage].filter((e) => e).length * 7
+      }%`,
+    };
+    const classNameArr = ['ag-grid-custom-text-view'];
+    if (contentAlign) classNameArr.push(contentAlign);
+    return (
+      <div className={classNameArr.join(' ')}>
+        {isFirstCell &&
+        !columnProperty.isServerSide &&
+        !actionColumn &&
+        data?.isNewRow &&
+        !(newRowDelete === false) ? (
+          <span
+            className="newRowDelete"
+            type="button"
+            ref={(ref) => {
+              if (!ref) return;
+              // eslint-disable-next-line no-param-reassign
+              ref.onclick = (e) => {
+                e.stopPropagation();
+                columnProperty.removeRow(
+                  data,
+                  gridRef,
+                  cellRendererParams.props,
+                  columnProperty.gridType
+                );
+                setTimeout(() => {
+                  if (api && api.redrawRows) {
+                    api.redrawRows();
+                  }
+                }, 100);
+              };
+            }}
+          >
+            {/* <Delete /> */}
+            Delete
+          </span>
+        ) : (
+          // <span className="newRowDelete">
+          // 	<Delete />
+          // </span>
+          <></>
+        )}
+        <span {...spanType}>{input}</span>
+        {enableHover ||
+        syncPackageCode ||
+        errorMessage ||
+        evaluationProps?.viewCs ||
+        evaluationProps?.showWarning ? (
+          <div className="info-syn-icon-container">
+            {errorMessage && (
+              <span
+                role="button"
+                tabIndex={0}
+                onKeyUp={() => this.onValidatedCellMessage(errorMessage)}
+                onClick={this.onValidatedCellMessage}
+                // title={errorMessage.message}
+                data-tip={errorMessage.message}
+                className="ag-grid-custom-text-view-validation"
+                data-type="error"
+                data-effect="solid"
+                data-for="cellError"
+                data-tooltip-id="cellError"
+                data-tooltip-content={errorMessage.message}
+                data-tooltip-place="left"
+              >
+                !
+              </span>
+            )}
+            {evaluationProps.showWarning && (
+              <span
+                role="button"
+                tabIndex={0}
+                onKeyUp={() =>
+                  this.onValidatedCellMessage(evaluationProps.warningInfo)
+                }
+                onClick={this.onValidatedCellMessage}
+                // title={errorMessage.message}
+                data-tip={evaluationProps.warningInfo}
+                className="ag-grid-custom-text-view-warning"
+                data-type="warning"
+                data-effect="solid"
+                data-for="cellWarning"
+              >
+                !
+              </span>
+            )}
+            {evaluationProps.showlogs && (
+              <span
+                role="button"
+                tabIndex={0}
+                onKeyUp={() =>
+                  this.onValidatedCellMessage(evaluationProps.logInfo)
+                }
+                onClick={this.onValidatedCellMessage}
+                // title={errorMessage.message}
+                className="ag-grid-custom-text-view-log"
+                data-tooltip-id="cellError"
+                data-tooltip-content={evaluationProps.logsInfo}
+                data-tooltip-place="left"
+                aria-label="refreshForRate"
+              >
+                !
+              </span>
+            )}
+            {evaluationProps.viewCs && (
+              <span
+                role="button"
+                tabIndex={0}
+                onKeyUp={() =>
+                  this.onValidatedCellMessage(evaluationProps.warningInfo)
+                }
+                onClick={() => {
+                  const { onviewCsClick } = evaluationProps;
+
+                  this.onValidatedCellMessage();
+                  if (onviewCsClick) {
+                    onviewCsClick(data);
+                  }
+                }}
+                // title={errorMessage.message}
+                data-tip={evaluationProps.warningInfo}
+                className="ag-grid-custom-text-view-warning"
+                data-tooltip-id="cellError"
+                data-tooltip-content="View Simulation Cost"
+                data-tooltip-place="left"
+                aria-label="cs"
+              >
+                <CSIcon />
+              </span>
+            )}
+            {evaluationProps.viewRefreshCell && (
+              <span
+                role="button"
+                tabIndex={0}
+                onKeyUp={() =>
+                  this.onValidatedCellMessage(evaluationProps.warningInfo)
+                }
+                onClick={() => {
+                  const { refreshCell } = evaluationProps;
+
+                  if (refreshCell) {
+                    refreshCell(data);
+                  }
+                }}
+                // title={errorMessage.message}
+                // data-tip={evaluationProps.warningInfo}
+                className="ag-grid-custom-text-view-warning ag-grid-custom-text-refresh-cell"
+                data-tooltip-id="cellError"
+                data-tooltip-content="Refresh For Rate"
+                data-tooltip-place="left"
+                aria-label="refreshForRate"
+              >
+                <Refresh />
+              </span>
+            )}
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
+    );
+  }
+}

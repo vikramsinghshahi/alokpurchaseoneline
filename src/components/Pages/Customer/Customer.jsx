@@ -51,6 +51,16 @@ const Customer = () => {
     },
   ];
 
+  const authUser = {
+    id: 1,
+    username: 'admin',
+    name: 'Netnapa Suwanatrai',
+    roleID: 1,
+    departmentID: null,
+    roleName: 'Admin',
+    permissionFrom: 'position',
+  };
+
   return (
     <div>
       <span>Hello I am header</span>
@@ -59,11 +69,12 @@ const Customer = () => {
         data={data}
         gridId="customersSpecificGrid"
         columns={columns}
+        authUser={authUser}
         rowKey="id"
         permissions={{
           add: true,
           update: true,
-          remove: false,
+          remove: true,
         }}
       />
     </div>

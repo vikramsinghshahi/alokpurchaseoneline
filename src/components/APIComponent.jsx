@@ -47,7 +47,7 @@ const APIComponent = () => {
 
     const base64encodedData = btoa(`${username}:${password}`);
 
-    console.log(base64encodedData);
+    // console.log(base64encodedData);
 
     try {
       const response = await axios.get(
