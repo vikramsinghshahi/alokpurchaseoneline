@@ -152,6 +152,16 @@
   text-decoration: underline;
 }
 
+.otp-form {
+  border: 1px solid red;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.otp-btn {
+  width: 100%;
+}
+
 @media (max-width: 900px) {
   //   .login-container {
   //     flex-direction: column;
