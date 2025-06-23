@@ -61,6 +61,8 @@ const Customer = () => {
     permissionFrom: 'position',
   };
 
+  console.log('hello');
+
   return (
     <div>
       <span>Hello I am header</span>

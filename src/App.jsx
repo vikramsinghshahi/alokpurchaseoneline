@@ -11,6 +11,7 @@ import Header from './Components/Header';
 import Customer from './Components/Pages/Customer/Customer';
 import LoginPage from './Components/Pages/Auth/LoginPage';
 import ProtectedRoute from './Components/ProtectedRoute';
+import MainLayout from './Components/Pages/MainLayout/MainLayout';
 
 function App() {
   return (
@@ -19,15 +20,17 @@ function App() {
         <div id="app">
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Header />
-                  <Customer />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/" element={<MainLayout />}>
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Header />
+                    <Customer />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
           </Routes>
         </div>
       </Router>

@@ -118,7 +118,7 @@ export default class AgDataGrid extends Component {
     footerPinnedColumns: any,
     report: func,
     onRequestClose: func,
-    disableServerSideExport: false,
+    disableServerSideExport: func,
     validateAfterImport: func,
     onCopyLots: any,
     copyLotInfo: any,
@@ -1733,7 +1733,8 @@ export default class AgDataGrid extends Component {
       defaultColDef: AgDataGridServices.defaultColDef,
       rowData: data,
       rowModelType,
-      serverSideStoreType: 'partial',
+      // serverSideStoreType: 'partial', replace with suppressServerSideInfiniteScroll
+      suppressServerSideInfiniteScroll: true,
       paginationPageSize: paginationPageSize || '50',
       cacheBlockSize: cacheBlockSize || '50',
       maxConcurrentDatasourceRequests: -1,
