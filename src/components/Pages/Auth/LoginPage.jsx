@@ -61,12 +61,12 @@ const LoginPage = () => {
       if (enteredOtp !== '4457') throw new Error('Invalid OTP'); // Mock: 4457 is correct
       console.log(userData);
       dispatch(login(userData));
-      navigate('/dashboard');
+      navigate('/receivable/customers');
     } catch (error) {
       setOtpError(error.message || 'OTP verification failed');
     } finally {
       setLoading(false);
-      navigate('/dashboard');
+      navigate('/receivable/customers');
     }
   };
 

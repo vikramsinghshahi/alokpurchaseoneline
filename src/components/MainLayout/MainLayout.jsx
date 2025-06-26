@@ -6,8 +6,13 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
+  TeamOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
+import HeaderLayout from '../Header/Header';
+import Alok from '../Common/Icons/Alok';
+import Receivable from '../Common/Icons/Receivable';
+import AlokNameIcon from '../Common/Icons/AlokNameIcon';
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(true);
@@ -15,40 +20,46 @@ const MainLayout = () => {
     token: { colorPrimary, colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  console.log(theme, colorPrimary, 'line 18');
-
   const menuItems = [
     {
       key: '1',
-      icon: <UserOutlined />,
-      // label: <span>nav 1</span>, // just a label (not link)
-    },
-    {
-      key: '2',
       icon: <VideoCameraOutlined />,
-
       label: (
         <NavLink
-          to="/dashboard"
+          to="/receivable"
           className={({ isActive }) =>
             isActive ? 'nav-link active-link' : 'nav-link'
           }
         >
-          nav 2
+          Account Receivable
+        </NavLink>
+      ),
+    },
+    {
+      key: '2',
+      icon: <UploadOutlined />,
+      label: (
+        <NavLink
+          to="/payable"
+          className={({ isActive }) =>
+            isActive ? 'nav-link active-link' : 'nav-link'
+          }
+        >
+          Account Payable
         </NavLink>
       ),
     },
     {
       key: '3',
-      icon: <UploadOutlined />,
+      icon: <TeamOutlined />,
       label: (
         <NavLink
-          to="/customer"
+          to="/employee"
           className={({ isActive }) =>
             isActive ? 'nav-link active-link' : 'nav-link'
           }
         >
-          nav 3
+          Employee
         </NavLink>
       ),
     },
@@ -56,41 +67,6 @@ const MainLayout = () => {
 
   return (
     <Layout style={{ height: '100vh', background: colorBgContainer }}>
-      {/* <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        className="sideBar"
-        theme="light"
-        background={colorBgContainer}
-        border="none"
-      >
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="light"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          style={{ border: 'none' }}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'nav 1',
-              style: { backgroundColor: colorPrimary, color: '#ffff' },
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
-          ]}
-        />
-      </Sider> */}
       <Sider
         trigger={null}
         collapsible
@@ -99,7 +75,17 @@ const MainLayout = () => {
         theme="light"
         style={{ background: colorBgContainer, borderRight: 'none' }}
       >
-        <div className="demo-logo-vertical" />
+        <div
+          className="demo-logo-vertical"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '10px 0px',
+          }}
+        >
+          {collapsed ? <Alok /> : <AlokNameIcon />}
+        </div>
         <Menu
           theme="light"
           mode="inline"
@@ -114,31 +100,10 @@ const MainLayout = () => {
           borderRadius: '10px',
         }}
       >
-        <Header
-          style={{
-            padding: 0,
-            background: colorPrimary,
-            borderRadius: '10px 10px 0px 0px',
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
-          {/* <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['2']}
-            items={items}
-            style={{ flex: 1, minWidth: 0 }}
-          /> */}
-        </Header>
+        <HeaderLayout
+          setCollapsed={() => setCollapsed(!collapsed)}
+          collapsed={collapsed}
+        />
         <Content
           style={{
             // margin: '24px 16px',

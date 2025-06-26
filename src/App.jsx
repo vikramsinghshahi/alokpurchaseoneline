@@ -7,11 +7,14 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import Header from './Components/Header';
-import Customer from './Components/Pages/Customer/Customer';
+import Customer from './Components/Pages/AccountReceivable/Customer/Customer';
 import LoginPage from './Components/Pages/Auth/LoginPage';
 import ProtectedRoute from './Components/ProtectedRoute';
-import MainLayout from './Components/Pages/MainLayout/MainLayout';
+import MainLayout from './Components/MainLayout/MainLayout';
+import Dashboard from './Components/Pages/Dashboard/Dashboard';
+import Payable from './Components/Pages/AccountPayable/Payable/Payable';
+import Employee from './Components/Pages/HR/Employee';
+import Invoice from './Components/Pages/AccountReceivable/Invoice/Invoice';
 
 function App() {
   return (
@@ -25,11 +28,47 @@ function App() {
                 path="/dashboard"
                 element={
                   <ProtectedRoute>
-                    <Header />
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/receivable"
+                element={<Navigate to="/receivable/customers" replace />}
+              />
+              <Route
+                path="/receivable/customers"
+                element={
+                  <ProtectedRoute>
                     <Customer />
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/receivable/invoices"
+                element={
+                  <ProtectedRoute>
+                    <Invoice />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/payable"
+                element={
+                  <ProtectedRoute>
+                    <Payable />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/employee"
+                element={
+                  <ProtectedRoute>
+                    <Employee />
+                  </ProtectedRoute>
+                }
+              />
+              <Route index element={<Navigate to="/dashboard" replace />} />
             </Route>
           </Routes>
         </div>

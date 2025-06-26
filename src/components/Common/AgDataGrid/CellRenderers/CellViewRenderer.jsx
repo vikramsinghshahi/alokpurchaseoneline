@@ -3,10 +3,10 @@ import { any } from 'prop-types';
 // import moment from 'moment';
 // import { Tooltip as ReactTooltip } from 'react-tooltip'
 // import PriceListUpload from 'Common/Icons/PriceListUpload';
-// import True from '../../Icons/True';
+import True from '../../Icons/True';
 // import Sync from 'Common/Icons/Synchronize'
 // import Delete from '../../Icons/Delete';
-// import False from '../../Icons/False';
+import False from '../../Icons/False';
 // import IconInfoTooltip from '../../Icons/IconInfoTooltip';
 // import MultiFileUpload from './MultiFileUpload/MultiFileUpload';
 import { isObject } from '../../Utils/CommonUtils';

@@ -10,7 +10,7 @@ import { Tooltip as ReactTooltip } from 'react-tooltip';
 // import Sync from 'Common/Icons/Synchronize';
 // import Expand from '../Icons/Expand';
 // import Add from '../Icons/Add';
-// import Delete from '../Icons/Delete';
+import Delete from '../Icons/Delete';
 // import ColumnChooser from '../Icons/ColumnChooser';
 // import Upload from '../Icons/Upload';
 // import Clear from '../Icons/Clear';
@@ -472,8 +472,7 @@ export default class AgDataGrid extends Component {
                 }}
                 aria-label="delete"
               >
-                {/* <Delete /> */}
-                Delete
+                <Delete />
               </button>
             </>
           )}
@@ -551,8 +550,7 @@ export default class AgDataGrid extends Component {
                   }}
                   aria-label="delete"
                 >
-                  {/* <Delete /> */}
-                  Delete
+                  <Delete />
                 </button>
               </>
             )}
@@ -1441,7 +1439,7 @@ export default class AgDataGrid extends Component {
                 data-for="toolTipHeaderPanel"
                 aria-label="Delete"
               >
-                {/* <Delete /> */}
+                <Delete />
               </button>
               {/* <button
 									type="button"
@@ -1956,61 +1954,57 @@ export default class AgDataGrid extends Component {
     };
 
     return (
-      <div style={{ height: 500 }}>
-        <div
-          className={`${
-            isFullScreen
-              ? `${
-                  darkMode ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'
-                } agGrid agGrid-fullscreen`
-              : `${
-                  darkMode ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'
-                } agGrid `
-          }`}
-          style={{ width: '100%', height: '100%' }}
-          ref={this.gridContainerRef}
-        >
-          {showHeaderPanel && this.renderHeaderPanel()}
-          <AgGridReact
-            className={className}
-            ref={this.gridRef}
-            {...gridOptions}
+      <div
+        className={`${
+          isFullScreen
+            ? `${
+                darkMode ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'
+              } agGrid agGrid-fullscreen`
+            : `${darkMode ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'} agGrid `
+        }`}
+        style={{ width: '100%', height: '100%' }}
+        ref={this.gridContainerRef}
+      >
+        {showHeaderPanel && this.renderHeaderPanel()}
+        <AgGridReact
+          className={className}
+          ref={this.gridRef}
+          {...gridOptions}
+        />
+        {fetching && (
+          <Loader />
+          // <div className="loading">
+          // 	<span className="sync">
+          // 		<Sync width="50" height="50" />
+          // 	</span>
+          // 	{progressPercent ? (
+          // 		<span className="percentage">
+          // 			{progressPercent} %
+          // 		</span>
+          // 	) : (
+          // 		''
+          // 	)}
+          // </div>
+        )}
+        {showImportModal && this.renderImportComponent(importComponent)}
+        {rowEditor && rowEditor.isVisibleRowEditor && (
+          <AgGridEditor
+            params={rowEditor.params}
+            onRequestClose={this.onRequestClose}
+            gridProps={this.props}
+            state={rowEditor.state}
           />
-          {fetching && (
-            <Loader />
-            // <div className="loading">
-            // 	<span className="sync">
-            // 		<Sync width="50" height="50" />
-            // 	</span>
-            // 	{progressPercent ? (
-            // 		<span className="percentage">
-            // 			{progressPercent} %
-            // 		</span>
-            // 	) : (
-            // 		''
-            // 	)}
-            // </div>
-          )}
-          {showImportModal && this.renderImportComponent(importComponent)}
-          {rowEditor && rowEditor.isVisibleRowEditor && (
-            <AgGridEditor
-              params={rowEditor.params}
-              onRequestClose={this.onRequestClose}
-              gridProps={this.props}
-              state={rowEditor.state}
-            />
-          )}
-          <ReactTooltip
-            place="bottom"
-            id="cellError"
-            className="gridToolTipMessage"
-          />
-          <ReactTooltip
-            place="bottom"
-            id="cellWarning"
-            className="gridToolTipMessage"
-          />
-        </div>
+        )}
+        <ReactTooltip
+          place="bottom"
+          id="cellError"
+          className="gridToolTipMessage"
+        />
+        <ReactTooltip
+          place="bottom"
+          id="cellWarning"
+          className="gridToolTipMessage"
+        />
       </div>
     );
   }

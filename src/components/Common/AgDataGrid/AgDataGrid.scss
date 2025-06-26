@@ -2,7 +2,7 @@
   height: 100%;
   /*max-height: 97%;
 	margin-top: 13px; */
-  max-height: calc(100% - 56px);
+  max-height: calc(100% - 36px);
 
   .gridHeaderPanel {
     min-height: 25px;
@@ -15,7 +15,7 @@
     background-color: transparent;
 
     .gridTitle {
-      font-size: 1.8rem;
+      font-size: 14px;
       font-weight: 500;
       color: black;
     }
@@ -96,8 +96,8 @@
       }
 
       svg {
-        width: 17px;
-        height: 17px;
+        width: 14px;
+        height: 14px;
 
         color: var(--inactive-tick);
       }
@@ -263,7 +263,7 @@
     border-right: none;
     border-bottom: none;
     border-top: none;
-    font-size: 1.5rem;
+    font-size: 12px;
   }
 
   .ag-cell.center {
@@ -1612,7 +1612,7 @@ default cell padding*/
             border: none;
             background-color: var(--filter);
             outline: none;
-            font-size: 1.8rem;
+            font-size: 14px;
             font-weight: 400;
           }
 
@@ -1620,7 +1620,7 @@ default cell padding*/
             border: none;
             background-color: var(--filter);
             outline: none;
-            font-size: 1.8rem;
+            font-size: 14px;
             font-weight: 400;
           }
         }
@@ -2060,7 +2060,7 @@ html {
 .ag-theme-alpine {
   .ag-header-cell {
     .ag-header-cell-label {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 500;
     }
   }
@@ -2069,7 +2069,7 @@ html {
 .agGrid {
   .ag-grid-custom-text-view {
     .ag-grid-custom-text-view-value {
-      font-size: 10px;
+      font-size: 12px;
 
       svg {
         width: 100%;

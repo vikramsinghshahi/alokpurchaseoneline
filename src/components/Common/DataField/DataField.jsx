@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, InputNumber, DatePicker, Select, Switch, Tooltip } from 'antd';
-import moment from 'moment';
+// import moment from 'moment';
 import './DataField.scss';
 
 const DataField = (props) => {
@@ -53,7 +53,7 @@ const DataField = (props) => {
           type="text"
           value={value}
           maxLength={maxLength || null}
-          onChange={e => handleChange(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           disabled={disabled}
           onBlur={handleBlur}
         />
@@ -68,7 +68,7 @@ const DataField = (props) => {
           autoComplete="off"
           value={value}
           maxLength={maxLength || null}
-          onChange={e => handleChange(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           disabled={disabled}
           onBlur={handleBlur}
           rows={rows || 3}
@@ -87,8 +87,10 @@ const DataField = (props) => {
           value={value}
           min={type === 'percent' ? 0 : undefined}
           max={type === 'percent' ? 100 : undefined}
-          formatter={type === 'percent' ? val => `${val}%` : undefined}
-          parser={type === 'percent' ? val => val.replace('%', '') : undefined}
+          formatter={type === 'percent' ? (val) => `${val}%` : undefined}
+          parser={
+            type === 'percent' ? (val) => val.replace('%', '') : undefined
+          }
           disabled={disabled}
           onBlur={handleBlur}
           onChange={handleChange}
@@ -109,7 +111,11 @@ const DataField = (props) => {
           onBlur={handleBlur}
           placeholder={placeholder || 'DD/MM/YYYY'}
           style={{ width: '100%' }}
-          {...(minDate ? { disabledDate: (current) => current && current < moment(minDate) } : {})}
+          {...(minDate
+            ? {
+                disabledDate: (current) => current && current < moment(minDate),
+              }
+            : {})}
         />
       );
       break;
@@ -126,7 +132,11 @@ const DataField = (props) => {
           onBlur={handleBlur}
           placeholder={placeholder || 'DD/MM/YYYY HH:mm'}
           style={{ width: '100%' }}
-          {...(minDate ? { disabledDate: (current) => current && current < moment(minDate) } : {})}
+          {...(minDate
+            ? {
+                disabledDate: (current) => current && current < moment(minDate),
+              }
+            : {})}
         />
       );
       break;
@@ -136,8 +146,11 @@ const DataField = (props) => {
         <Select
           className="formInput"
           value={value}
-          options={options.map(opt => ({ value: opt[valueKey], label: opt[labelKey] }))}
-          onChange={val => handleChange(val)}
+          options={options.map((opt) => ({
+            value: opt[valueKey],
+            label: opt[labelKey],
+          }))}
+          onChange={(val) => handleChange(val)}
           disabled={disabled}
           allowClear={clearable}
           mode={isMulti ? 'multiple' : undefined}
@@ -152,8 +165,11 @@ const DataField = (props) => {
         <Select
           className="formInput"
           value={value}
-          options={options.map(opt => ({ value: opt[valueKey], label: opt[labelKey] }))}
-          onChange={val => handleChange(val)}
+          options={options.map((opt) => ({
+            value: opt[valueKey],
+            label: opt[labelKey],
+          }))}
+          onChange={(val) => handleChange(val)}
           disabled={disabled}
           allowClear={clearable}
           mode="tags"
@@ -167,7 +183,7 @@ const DataField = (props) => {
       input = (
         <Switch
           checked={!!value}
-          onChange={checked => handleChange(checked)}
+          onChange={(checked) => handleChange(checked)}
           disabled={disabled}
         />
       );
@@ -188,34 +204,50 @@ const DataField = (props) => {
       throw new Error('type prop not defined');
   }
 
+  console.log({ error, touched });
+
   return (
     <div
-      className={`dataFieldContainer ${className} ${showBackgroundColor ? 'showBackgroundColor' : ''}`}
+      className={`dataFieldContainer ${className} ${
+        showBackgroundColor ? 'showBackgroundColor' : ''
+      }`}
     >
       <div className={dataFieldClass}>
         {title && (
           <div className="dataFieldTitleContainer">
-            <span className={`dataFieldTitle ${required ? 'required' : ''}`}>{title}</span>
+            <span className={`dataFieldTitle ${required ? 'required' : ''}`}>
+              {title}
+            </span>
           </div>
         )}
-        <div className={error && touched ? 'dataFieldInputContainer error' : 'dataFieldInputContainer'}>
+        <div
+          className={
+            error && touched
+              ? 'dataFieldInputContainer error'
+              : 'dataFieldInputContainer'
+          }
+        >
           {input}
           {error && touched && (
             <>
-              <Tooltip title={error} placement="left">
-                <span
-                  role="button"
-                  tabIndex={0}
-                  className="dataField-validation-error"
-                  style={{ color: 'red', marginLeft: 8 }}
-                >
-                  !
-                </span>
-              </Tooltip>
+              {console.log('hello')}
+              {/* <Tooltip title={error} placement="left">
+              
+              </Tooltip> */}
+              <span
+                role="button"
+                tabIndex={0}
+                className="dataField-validation-error"
+                style={{ color: 'red', marginLeft: 8 }}
+              >
+                !
+              </span>
             </>
           )}
         </div>
-        {description && <div className="dataFieldDescription">{description}</div>}
+        {description && (
+          <div className="dataFieldDescription">{description}</div>
+        )}
       </div>
     </div>
   );
