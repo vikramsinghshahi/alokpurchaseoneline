@@ -4,7 +4,7 @@ import { any, number } from 'prop-types';
 // import Select, { createFilter } from 'react-select';
 // import Creatable from 'react-select/creatable';
 import DatePicker from 'react-datepicker';
-// import Switch from 'react-switch';
+import Switch from 'react-switch';
 // import { NumericFormat as NumberFormatBase } from 'react-number-format';
 // import MaskedInput from 'react-text-mask';
 import { Portal } from 'react-overlays';

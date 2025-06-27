@@ -92,8 +92,6 @@ const Employee = () => {
           },
         }
       );
-      console.log('hello');
-
       // setToken(response.data.token);
       return response.data;
     } catch (err) {
@@ -268,7 +266,7 @@ const Employee = () => {
         type="primary"
         icon={<PlusOutlined />}
         onClick={showFirstModal}
-        style={{ marginBottom: '16px', color: '#ffff' }}
+        style={{ marginBottom: '0px', color: '#ffff' }}
       >
         Open Modal
       </Button>
@@ -286,9 +284,9 @@ const Employee = () => {
           authUser={authUser}
           rowKey="id"
           permissions={{
-            add: true,
+            add: false,
             update: true,
-            remove: true,
+            remove: false,
           }}
         />
       </Skeleton>
@@ -298,19 +296,19 @@ const Employee = () => {
         open={isFirstModalOpen}
         onOk={handleFirstOk}
         onCancel={handleFirstCancel}
-        width={'60%'}
+        width={'70%'}
         style={{
           right: 0,
-          left: '40%',
+          left: '30%',
           // height: '100vh',
           top: 0,
           padding: 0,
           margin: 0,
         }}
-        // bodyStyle={{
-        //   height: 'calc(100vh - 110px)',
-        //   overflow: 'auto',
-        // }}
+        bodyStyle={{
+          height: 'calc(100vh - 110px)',
+          overflow: 'auto',
+        }}
       >
         <p>This is the first modal</p>
         {/* <AgDataGrid
@@ -326,15 +324,15 @@ const Employee = () => {
             update: true,
             remove: true,
           }}
-          
         /> */}
-        <DataField
+        {/* <DataField
           type="text"
           accessor="name"
           title="Name"
           onChange={(key, value) => {
             console.log(key, value);
           }}
+          value={'This IS Name'}
           error={true}
           touched={true}
         />
@@ -345,6 +343,7 @@ const Employee = () => {
           onChange={(key, value) => {
             console.log(key, value);
           }}
+          value={'This is the dummy filed text area'}
           error={true}
           touched={true}
         />
@@ -355,16 +354,150 @@ const Employee = () => {
           onChange={(key, value) => {
             console.log(key, value);
           }}
+          value={12345}
           error={true}
           touched={true}
         />
-        <Button
+        <DataField
+          type="select"
+          accessor="select"
+          title="Select"
+          labelKey="name"
+          valueKey="name"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="Rahul"
+          options={[{ id: 1, name: 'Rahul' }]}
+          error={true}
+          touched={true}
+        /> */}
+        {/* <DataField
+          type="generatePassword"
+          title="Genertae passowrd"
+          accessor="select"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="Rahul"
+          // options={[{ id: 1, name: 'Rahul' }]}
+          // error={true}
+          // touched={true}
+        /> */}
+        {/* <DataField
+          type="percent"
+          title="Percentage"
+          accessor="select"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="0.2"
+          // options={[{ id: 1, name: 'Rahul' }]}
+          error={true}
+          touched={true}
+        />
+        <DataField
+          type="currency"
+          title="Currency"
+          accessor="select"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="20"
+          // options={[{ id: 1, name: 'Rahul' }]}
+          error={true}
+          touched={true}
+        />
+        <DataField
+          type="date"
+          title="Date"
+          accessor="select"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="2025-06-18T06:59:08.000Z"
+          // options={[{ id: 1, name: 'Rahul' }]}
+          error={true}
+          touched={true}
+        />
+        <DataField
+          type="dateTime"
+          title="Date Time"
+          accessor="select"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="2025-06-18T06:59:08.000Z"
+          // options={[{ id: 1, name: 'Rahul' }]}
+          error={true}
+          touched={true}
+        />
+        <DataField
+          type="phone"
+          title="Phone"
+          accessor="phone"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="34563455424"
+          // options={[{ id: 1, name: 'Rahul' }]}
+          error={true}
+          touched={true}
+        />
+        <DataField
+          type="switch"
+          title="Switch"
+          accessor="switch"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="true"
+          // options={[{ id: 1, name: 'Rahul' }]}
+          error={true}
+          touched={true}
+        /> */}
+        <DataField
+          type="dataFieldGridDropDown"
+          title="Certificate"
+          //required
+          accessor="certificateID"
+          className="col-2"
+          valueKey="certificateCode"
+          labelKey="certificateCode"
+          value="hello"
+          onChange={() => {}}
+          options={[
+            { id: 1, certificateCode: 'hello', certificateName: 'Hii' },
+            { id: 2, certificateCode: 'hello-2', certificateName: 'Hii-2' },
+          ]}
+          subColumns={[
+            {
+              headerName: 'Certificate Code',
+              field: 'certificateCode',
+            },
+            {
+              headerName: 'Certificate Name',
+              field: 'certificateName',
+              // width: 200,
+            },
+          ]}
+          // error={true}
+          // touched={true}
+          // setFieldTouched={}
+          // handleBlur={(key, value) => {
+          //   setFieldTouched('certificateID', true);
+          // }}
+        />
+
+        {/* dateTime */}
+
+        {/* <Button
           type="primary"
           onClick={showSecondModal}
           style={{ color: '#ffff' }}
         >
           Open Second Modal
-        </Button>
+        </Button> */}
       </Modal>
       <Modal
         title="Second Modal"
@@ -380,10 +513,10 @@ const Employee = () => {
           padding: 0,
           margin: 0,
         }}
-        // bodyStyle={{
-        //   height: 'calc(100vh - 110px)',
-        //   overflow: 'auto',
-        // }}
+        bodyStyle={{
+          height: 'calc(100vh - 110px)',
+          overflow: 'auto',
+        }}
       >
         <p>This is the second modal on top of the first one</p>
         <AgDataGrid

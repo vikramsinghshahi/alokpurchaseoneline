@@ -1425,15 +1425,15 @@ default cell padding*/
       /*background-color: var(--grid-even-row);
 			
 			border-color: var(--cell-border);*/
-      background-color: #ffffff;
+      background-color: #fffbfb;
       border: none;
     }
 
     .ag-row-even {
       /*background-color: var(--grid-odd-row);
 			border-color: var(--cell-border);*/
-      background-color: #f2f2f2;
-      border: none;
+      background-color: #f1e5f0;
+      border: 1px solid #ebebeb;
     }
   }
 }

@@ -1,13 +1,17 @@
 .dataFieldContainer {
-  width: 30%;
-  margin: 5px 5px;
+  width: 250px;
+  margin: 5px;
+
+  .dataField {
+    width: 100%;
+  }
 
   .dataFieldTitleContainer {
-    padding: 10px 0px;
+    padding: 2px 0px;
     color: black;
 
     .dataFieldTitle {
-      font-size: 1.7rem;
+      font-size: 14px;
     }
 
     .required::after {
@@ -17,27 +21,33 @@
   }
 
   .dataFieldInputContainer {
+    height: 34px;
+    padding: 0px;
+    width: 100%;
+    .textArea,
     .formInput {
-      border: 1px solid;
-      width: 100%;
-      width: 100%;
+      width: 90%;
       border: none;
       background: #ebebeb;
       border-radius: 6px;
-      height: 34px;
-      font-size: 1.8rem;
-      padding: 0px 14px;
+      padding: 0 4%;
+      height: 90%;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
       color: black;
     }
 
     .Select {
-      font-size: 1.8rem;
+      font-size: 14px;
       cursor: pointer;
+      padding: 0px;
+      height: 100%;
+      min-height: 100%;
 
       .Select__control {
         border: none;
         border-radius: 6px;
-        padding-left: 0.6rem;
 
         .Select__input {
           color: '';
@@ -56,7 +66,7 @@
         }
 
         .Select__multi-value__label {
-          font-size: 1.8rem;
+          font-size: 14px;
         }
       }
 
@@ -93,12 +103,11 @@
 
       svg {
         pointer-events: none;
-
-        height: 18px;
       }
 
       .css-12jo7m5 {
         font-size: 100%;
+        padding: 0px;
       }
 
       .css-1alnv5e {
@@ -116,21 +125,29 @@
         background-color: '';
         color: '';
       }
+
+      .Select__indicators {
+        height: 100%;
+      }
+
+      .Select__value-container {
+        padding: 0px 6px;
+      }
     }
 
     .Select__control {
       background: #ebebeb;
-      min-height: 34px;
     }
 
     .react-tel-input {
+      height: 100%;
       .form-control {
         width: 100%;
-        height: 34px;
+        height: 100%;
         border-radius: 6px;
         border: none;
         background: #ebebeb;
-        font-size: 1.8rem;
+        font-size: 14px;
         color: #000;
       }
 
@@ -147,7 +164,7 @@
         border: none;
         background: #ebebeb;
         border-right: 1px solid #cacaca;
-        font-size: 1.8rem;
+        font-size: 14px;
 
         .selected-flag {
           border-radius: 10px 0px 0px 10px;
@@ -191,19 +208,29 @@
       /* height: 10rem;*/
       border-radius: 6px;
       background: #ebebeb;
-      padding: 8px;
-      font-size: 1.8rem;
+      margin: 2px;
       color: black;
       line-height: 1.6;
+      font-size: 30px;
+    }
+
+    .textArea {
+      padding: 10px;
     }
 
     .formTextArea:focus {
-      outline: #2f52b6 !important;
-      border: 2px solid #2f52b6;
+      outline: none !important;
+      border: none;
     }
 
     .react-datepicker-wrapper {
       width: 100%;
+      height: 100%;
+      //   border: 10x solid red;
+
+      .react-datepicker__input-container {
+        height: 100%;
+      }
     }
   }
 
@@ -237,7 +264,7 @@
     margin-top: 0.25rem;
     color: #f82807;
     border-radius: 3px;
-    font-size: 1.2rem;
+    font-size: 12px;
     padding: 0.25rem 1rem;
     width: 100%;
     text-align: end;
@@ -249,21 +276,26 @@
     .gridDropdown {
       display: flex;
       width: 100%;
-      min-height: 34px;
-      background-color: var(--form-input);
-      border: 1px solid var(--border);
+      height: 100%;
+      //   min-height: 34px;
+      //   background-color: var(--form-input);
+      //   border: 1px solid var(--border);
       border-radius: 6px;
       padding: 1rem;
-      font-size: 1.8rem;
+      font-size: 18px;
       font-weight: 400;
       padding: 0px 11px;
       cursor: pointer;
       padding-right: 4px;
-      height: 34px;
+      //   height: 34px;
       background: #ebebeb;
 
       .popover-gridDropDown {
         width: 100%;
+
+        .popOver-btn {
+          border: none;
+        }
       }
 
       .button-content {
@@ -271,7 +303,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 34px;
+        // height: 34px;
 
         .clear-container {
           display: flex;
@@ -279,6 +311,13 @@
           justify-content: space-between;
           width: 100%;
           color: black;
+
+          .clear {
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
 
           svg {
             fill: hsl(0, 0%, 80%);
@@ -366,33 +405,32 @@
   .gridContainer {
     background-color: white;
     border-radius: 6px;
-    font-size: 1.6rem;
-    padding: 1rem;
+    font-size: 16px;
+    padding: 10px;
 
     .searchInput {
       background-color: #ebebeb;
       border-radius: 6px;
-      height: 34px;
+      // height: 34px;
     }
 
     .ag-root-wrapper.ag-ltr.ag-layout-normal {
       border: 1px solid #b9bbbd;
 
       .ag-header-cell-label {
-        font-size: 1.6rem;
-        font-weight: 600;
+        font-size: 13px;
       }
     }
 
     .ag-theme-alpine .ag-root-wrapper-body .ag-row-even {
       background-color: #f2f2f2 !important;
-      font-size: 1.6rem;
+      font-size: 16px;
       border: none;
     }
 
     .ag-theme-alpine .ag-root-wrapper-body .ag-row-odd {
       background-color: white;
-      font-size: 1.6rem;
+      font-size: 16px;
       border: none;
     }
 
@@ -445,13 +483,13 @@
 
     .react-switch-off::after {
       content: '';
-      font-size: 1.8rem;
+      font-size: 18px;
       margin-left: 1rem;
     }
 
     .react-switch-on::after {
       content: '';
-      font-size: 1.8rem;
+      font-size: 18px;
       margin-left: 1rem;
     }
   }
@@ -497,39 +535,40 @@
   display: flex;
 
   .react-datepicker__month-container {
-    width: 200px;
+    width: 220px;
     font-size: 14px;
+    // border: 1px solil;
 
     .react-datepicker__header {
       text-align: center;
       background-color: #f0f0f0;
       border-bottom: 1px solid #aeaeae;
-      border-top-left-radius: 0.3rem;
-      border-top-right-radius: 0.3rem;
-      padding-top: 8px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      padding-top: 4px;
       position: relative;
 
       .react-datepicker__current-month {
         font-size: 14px;
-        padding: 4px 0px;
+        padding: 2px 0px;
       }
 
       .react-datepicker__header__dropdown {
         display: flex;
         align-items: center;
-        padding: 8px 0px;
+        padding: 2px 0px;
 
         font-size: 12px;
       }
 
       .react-datepicker__day-names {
-        margin-top: 8px;
+        margin-top: 4px;
         margin-bottom: 0;
-
         font-size: 12px;
 
         .react-datepicker__day-name {
-          margin: 0px 8px;
+          margin: 0px 4px;
+          width: 28px;
         }
       }
     }
@@ -539,8 +578,9 @@
 
       .react-datepicker__week {
         .react-datepicker__day {
-          margin: 4px 3px;
+          margin: 0px 5px;
           width: 20px;
+          font-size: 14px;
         }
 
         .react-datepicker__day--selected {
@@ -553,10 +593,11 @@
 }
 
 .react-datepicker:has(.react-datepicker__time-container) {
-  width: 290px;
+  width: 310px;
 
   .react-datepicker__month-container {
-    width: 200px;
+    width: 220px;
+    font-size: 14px;
   }
 
   .react-datepicker__time-container {
@@ -572,6 +613,17 @@
   }
 }
 
+/**
+ * This is the main container for each individual data field.
+ *
+ * Inside this container, we have the .dataFieldInputContainer which is
+ * where the actual input element is located. This container is given
+ * a relative position, so that the error message can be absolutely
+ * positioned on top of the input element.
+ *
+ * The .error class is given a margin-top of 0 so that the error message
+ * does not have any extra space above it.
+ */
 .dataFieldContainer {
   .dataFieldInputContainer {
     position: relative;
@@ -594,7 +646,7 @@
   border-radius: 50%;
   cursor: pointer;
   font-weight: 700;
-  margin-left: 5px;
+  margin-left: 0px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
