@@ -1,0 +1,43 @@
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+
+.commonOverlay {
+  z-index: 99; /*fullscreen has z-index of 97. This is 98 so it is visible in fullscreen */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+}
+
+.closeModal {
+  position: absolute;
+  right: -4rem;
+  cursor: pointer;
+  height: 2.8rem;
+  width: 2.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  background: transparent;
+  padding: 0;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    svg {
+      color: #fff;
+    }
+  }
+
+  svg {
+    color: rgb(207, 207, 207);
+  }
+}

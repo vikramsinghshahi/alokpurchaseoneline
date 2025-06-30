@@ -356,6 +356,7 @@ export default class DataField extends PureComponent {
         input = (
           <textarea
             name={accessor}
+            id="area"
             className="textArea"
             autoComplete="off"
             value={value}
@@ -363,7 +364,7 @@ export default class DataField extends PureComponent {
             onChange={this.handleTextChange}
             disabled={disabled}
             onBlur={handleBlur}
-            rows={rows || 3}
+            rows={rows || '3'}
           />
         );
         break;

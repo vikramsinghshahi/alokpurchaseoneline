@@ -190,6 +190,7 @@ export default class PopOver extends Component {
     } else {
       left = -modalWidth;
     }
+    console.log({ top, left }, window.innerHeight, contentRect);
     this.setState({ top, left });
   };
 

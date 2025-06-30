@@ -1,11 +1,37 @@
 import React, { useRef, useState, useEffect } from 'react';
 import AgDataGrid from '../../../Common/AgDataGrid/AgDataGrid';
-import { Skeleton } from 'antd';
+import { Skeleton, Collapse, Typography, Divider, Tag, Button } from 'antd';
+import {
+  UserOutlined,
+  EnvironmentOutlined,
+  PhoneOutlined,
+  MailOutlined,
+  CloseOutlined,
+} from '@ant-design/icons';
+import './Customer.scss';
+
+const { Panel } = Collapse;
+const { Title, Text } = Typography;
 
 const Customer = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState({
+    id: 1,
+    customerName: 'Rohit',
+  });
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const agDataGridRefCustomersSpecificGrid = useRef(null);
+
+  const handleRowClick = (record) => {
+    setSelectedCustomer(record);
+    console.log('helli ');
+    setDrawerVisible(true);
+  };
+
+  const onCloseDrawer = () => {
+    setDrawerVisible(false);
+  };
 
   useEffect(() => {
     // Simulate API call
@@ -216,6 +242,21 @@ const Customer = () => {
 
   const columns = [
     {
+      Header: 'Customer Account',
+      accessor: 'custAccount',
+      flex: false,
+      minWidth: 300,
+      contentAlign: 'left',
+      hideInTable: true,
+      cellProps: {
+        type: 'text',
+      },
+      editProps: {
+        type: 'text',
+        accessor: 'name',
+      },
+    },
+    {
       Header: 'Customer Name',
       accessor: 'customerName',
       flex: false,
@@ -223,6 +264,12 @@ const Customer = () => {
       contentAlign: 'left',
       cellProps: {
         type: 'text',
+      },
+      editProps: {
+        Header: 'Name',
+        type: 'text',
+        accessor: 'name',
+        required: true,
       },
     },
     {
@@ -240,6 +287,27 @@ const Customer = () => {
       cellProps: {
         type: 'text',
       },
+      editProps: {
+        type: 'text',
+        accessor: 'customerGroup',
+      },
+    },
+    {
+      Header: 'Mode Of Delivery',
+      accessor: 'modeOfDelivery',
+      contentAlign: 'center',
+      hideInTable: true,
+      cellProps: {
+        type: 'select',
+        options: [],
+      },
+      editProps: {
+        type: 'select',
+        accessor: 'modeOfDelivery',
+        options: [],
+        labelKey: 'id',
+        valuekey: 'id',
+      },
     },
     {
       Header: 'Country',
@@ -249,6 +317,10 @@ const Customer = () => {
       cellProps: {
         type: 'text',
       },
+      editProps: {
+        type: 'text',
+        accessor: 'country',
+      },
     },
     {
       Header: 'Terms of Payment',
@@ -257,6 +329,10 @@ const Customer = () => {
       cellProps: {
         type: 'text',
       },
+      editProps: {
+        type: 'text',
+        accessor: 'termsOfPayment',
+      },
     },
     {
       Header: 'Delivery Terms',
@@ -264,6 +340,10 @@ const Customer = () => {
       contentAlign: 'center',
       cellProps: {
         type: 'text',
+      },
+      editProps: {
+        type: 'text',
+        accessor: 'deliveryTerms',
       },
     },
     {
@@ -287,48 +367,143 @@ const Customer = () => {
     permissionFrom: 'position',
   };
 
-  // console.log('hello');
+  const renderCustomerDetails = () => {
+    if (!selectedCustomer) return null;
 
-  // if (loading) {
-  //   return (
-  //     <div
-  //       style={{
-  //         height: '100%',
-  //         width: '100%',
-  //         padding: '16px',
-  //         backgroundColor: '#fff',
-  //         borderRadius: '8px',
-  //         boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
-  //       }}
-  //     >
-  //       <Skeleton active paragraph={{ rows: 15 }} />
-  //     </div>
-  //   );
-  // }
+    return (
+      <div className="customer-details">
+        <div className="customer-details__header">
+          {/* <div className="customer-details__avatar">
+            <UserOutlined className="customer-details__avatar-icon" />
+          </div> */}
+          <div>
+            <Title level={4} className="customer-details__title">
+              {selectedCustomer?.customerName}
+            </Title>
+            <Text type="secondary">{selectedCustomer?.customerNumber}</Text>
+          </div>
+        </div>
+
+        <Divider className="customer-details__divider" />
+
+        <Collapse defaultActiveKey={['1', '2']} ghost>
+          <Panel header="Primary Information" key="1">
+            <div className="info-panel">
+              <div className="info-panel__item">
+                <Text className="info-panel__label">Customer Group:</Text>
+                <Tag color="blue" className="info-panel__tag">
+                  {selectedCustomer.customerGroup}
+                </Tag>
+              </div>
+              <div className="info-panel__item">
+                <Text className="info-panel__label">Country:</Text>
+                <Text>{selectedCustomer.country}</Text>
+              </div>
+              <div className="info-panel__item">
+                <Text className="info-panel__label">Status:</Text>
+                <Tag
+                  className={`status-tag--${selectedCustomer?.status
+                    ?.toLowerCase()
+                    .replace(/\s+/g, '-')}`}
+                >
+                  {selectedCustomer.status}
+                </Tag>
+              </div>
+            </div>
+          </Panel>
+
+          <Panel header="Payment & Delivery" key="2">
+            <div className="info-panel">
+              <div className="info-panel__item">
+                <Text className="info-panel__label">Terms of Payment:</Text>
+                <Text>{selectedCustomer.termsOfPayment}</Text>
+              </div>
+              <div className="info-panel__item">
+                <Text className="info-panel__label">Delivery Terms:</Text>
+                <Text>{selectedCustomer.deliveryTerms}</Text>
+              </div>
+            </div>
+          </Panel>
+
+          <Panel header="Contact Information" key="3">
+            <div className="info-panel">
+              <div className="info-panel__item info-panel__item--contact">
+                <PhoneOutlined className="info-panel__icon" />
+                <Text>+1 234 567 8900</Text>
+              </div>
+              <div className="info-panel__item info-panel__item--contact">
+                <MailOutlined className="info-panel__icon" />
+                <Text>
+                  contact@
+                  {selectedCustomer?.customerName
+                    ?.toLowerCase()
+                    .replace(/\s+/g, '')}
+                  .com
+                </Text>
+              </div>
+              <div className="info-panel__item">
+                <EnvironmentOutlined className="info-panel__icon" />
+                <Text>
+                  123 Business Street, Industrial Area,{' '}
+                  {selectedCustomer.country}
+                </Text>
+              </div>
+            </div>
+          </Panel>
+        </Collapse>
+      </div>
+    );
+  };
 
   return (
-    <div
-      style={{
-        height: '100%',
-        width: '100%',
-      }}
-    >
-      <Skeleton ative paragraph={{ rows: 15 }} loading={loading}>
-        <AgDataGrid
-          ref={agDataGridRefCustomersSpecificGrid}
-          data={data}
-          gridId="customersSpecificGrid"
-          gridTitle="Customer List"
-          columns={columns}
-          authUser={authUser}
-          rowKey="id"
-          permissions={{
-            add: false,
-            update: false,
-            remove: false,
-          }}
-        />
-      </Skeleton>
+    <div className="drawer-container">
+      <div
+        className={`drawer-container__main-content ${
+          drawerVisible ? 'drawer-container__main-content--drawer-visible' : ''
+        }`}
+      >
+        <Skeleton active paragraph={{ rows: 15 }} loading={loading}>
+          <AgDataGrid
+            ref={agDataGridRefCustomersSpecificGrid}
+            data={data}
+            gridId="customersSpecificGrid"
+            gridTitle="Customer List"
+            uniqueTitle="Customer List"
+            columns={columns}
+            authUser={authUser}
+            editMode="popup"
+            rowKey="id"
+            onRowClicked={handleRowClick}
+            rowStyle={{ cursor: 'pointer' }}
+            containerClassName="ag-grid-container"
+            permissions={{
+              add: true,
+              update: false,
+              remove: false,
+            }}
+          />
+        </Skeleton>
+      </div>
+
+      <div
+        className={`drawer-container__drawer ${
+          drawerVisible ? 'drawer-container__drawer--visible' : ''
+        }`}
+      >
+        <div className="padding-10">
+          <div className="drawer-container__drawer-header">
+            <span>*NNP* SUNRISE TANKS PVT.LTD</span>
+            <Button
+              type="text"
+              icon={<CloseOutlined />}
+              onClick={onCloseDrawer}
+            />
+          </div>
+          <div className="drawer-container__drawer-content">
+            {selectedCustomer && renderCustomerDetails()}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -8,21 +8,21 @@ import { any, array, bool, func, object, string } from 'prop-types';
 import { v4 } from 'uuid';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 // import Sync from 'Common/Icons/Synchronize';
-// import Expand from '../Icons/Expand';
-// import Add from '../Icons/Add';
+import Expand from '../Icons/Expand';
+import Add from '../Icons/Add';
 import Delete from '../Icons/Delete';
 // import ColumnChooser from '../Icons/ColumnChooser';
 // import Upload from '../Icons/Upload';
-// import Clear from '../Icons/Clear';
+import Clear from '../Icons/Clear';
 // import FilterClear from '../Icons/FilterClear';
 // import DownloadIcon from '../Icons/DownloadIcon';
 // import ReportPDF from 'Common/Icons/ReportPDF'
-// import Compress from '../Icons/Compress';
+import Compress from '../Icons/Compress';
 // import ReactModal from 'Common/ReactModal/ReactModal'
 // import { agGridExportUtil } from 'Common/Utils/commonUtils'
 import { AgDataGridServices } from './AgDataGrid.Services';
 import CustomDateComponent from './CustomDateComponent';
-// import AgGridEditor from './Editor/AgGridEditor';
+import AgGridEditor from './Editor/AgGridEditor';
 // import { AgGridDeleteEditor } from './Editor/AgGridDeleteEditor';
 // // import SyncPackageCode from '../CopyLots/SyncPackageCode'
 import MasterDetailRenderer from './MasterDetailRenderer';
@@ -1407,8 +1407,8 @@ export default class AgDataGrid extends Component {
               data-for="toolTipHeaderPanel"
               aria-label="Add"
             >
-              {/* <Add /> */}
-              Add
+              <Add />
+              {/* Add */}
             </button>
           )}
           {renderCustomAddComponent && (
@@ -1516,8 +1516,7 @@ export default class AgDataGrid extends Component {
             data-for="toolTipHeaderPanel"
             className={`reset ${isFilterLock ? 'active' : ''}`}
           >
-            {/* <Clear /> */}
-            clear
+            <Clear />
           </button>
           <button
             title="Maximize"
@@ -1527,8 +1526,7 @@ export default class AgDataGrid extends Component {
             data-for="toolTipHeaderPanel"
             className="maximize"
           >
-            {/* {isFullScreen ? <Compress /> : <Expand />} */}
-            {isFullScreen ? 'Compress' : 'Expand'}
+            {isFullScreen ? <Compress /> : <Expand />}
           </button>
         </div>
         <ReactTooltip place="top" id="toolTipHeaderPanel" />

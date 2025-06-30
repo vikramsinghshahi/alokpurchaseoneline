@@ -261,7 +261,7 @@ const Employee = () => {
   // };
 
   return (
-    <div style={{ height: '100%', width: '100%', padding: '20px' }}>
+    <div style={{ height: '100%', width: '100%', padding: '0px' }}>
       <Button
         type="primary"
         icon={<PlusOutlined />}
@@ -274,6 +274,7 @@ const Employee = () => {
         active
         paragraph={{ rows: 18 }}
         loading={loading.auth || loading.api}
+        className="custom-skeleton"
       >
         <AgDataGrid
           ref={agDataGridRefEmployee}
@@ -384,7 +385,7 @@ const Employee = () => {
           // error={true}
           // touched={true}
         /> */}
-        {/* <DataField
+        <DataField
           type="percent"
           title="Percentage"
           accessor="select"
@@ -444,6 +445,7 @@ const Employee = () => {
           error={true}
           touched={true}
         />
+
         <DataField
           type="switch"
           title="Switch"
@@ -455,10 +457,197 @@ const Employee = () => {
           // options={[{ id: 1, name: 'Rahul' }]}
           error={true}
           touched={true}
-        /> */}
+        />
+        <DataField
+          type="date"
+          title="Date"
+          accessor="select"
+          onChange={(key, value) => {
+            console.log(key, value);
+          }}
+          value="2025-06-18T06:59:08.000Z"
+          // options={[{ id: 1, name: 'Rahul' }]}
+          error={true}
+          touched={true}
+        />
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <DataField
+            type="dataFieldGridDropDown"
+            title="Customer List"
+            //required
+            accessor="certificateID"
+            className="col-2"
+            valueKey="certificateCode"
+            labelKey="certificateCode"
+            value="hello"
+            onChange={() => {}}
+            options={[
+              { id: 1, certificateCode: 'hello', certificateName: 'Hii' },
+              { id: 2, certificateCode: 'hello-2', certificateName: 'Hii-2' },
+            ]}
+            subColumns={[
+              {
+                headerName: 'Certificate Code',
+                field: 'certificateCode',
+              },
+              {
+                headerName: 'Certificate Name',
+                field: 'certificateName',
+                // width: 200,
+              },
+            ]}
+            // error={true}
+            // touched={true}
+            // setFieldTouched={}
+            // handleBlur={(key, value) => {
+            //   setFieldTouched('certificateID', true);
+            // }}
+          />
+          <DataField
+            type="dataFieldGridDropDown"
+            title="Address"
+            //required
+            accessor="certificateID"
+            className="col-2"
+            valueKey="certificateCode"
+            labelKey="certificateCode"
+            value="hello"
+            onChange={() => {}}
+            options={[
+              { id: 1, certificateCode: 'hello', certificateName: 'Hii' },
+              { id: 2, certificateCode: 'hello-2', certificateName: 'Hii-2' },
+            ]}
+            subColumns={[
+              {
+                headerName: 'Certificate Code',
+                field: 'certificateCode',
+              },
+              {
+                headerName: 'Certificate Name',
+                field: 'certificateName',
+                // width: 200,
+              },
+            ]}
+            // error={true}
+            // touched={true}
+            // setFieldTouched={}
+            // handleBlur={(key, value) => {
+            //   setFieldTouched('certificateID', true);
+            // }}
+          />
+          <DataField
+            type="textArea"
+            accessor="area"
+            title="Area"
+            rows="5"
+            onChange={(key, value) => {
+              console.log(key, value);
+            }}
+            value={'This is the dummy filed text area'}
+            // error={true}
+            // touched={true}
+          />
+
+          <DataField
+            type="dataFieldGridDropDown"
+            title="Customer List"
+            //required
+            accessor="certificateID"
+            className="col-2"
+            valueKey="certificateCode"
+            labelKey="certificateCode"
+            value="hello"
+            onChange={() => {}}
+            options={[
+              { id: 1, certificateCode: 'hello', certificateName: 'Hii' },
+              { id: 2, certificateCode: 'hello-2', certificateName: 'Hii-2' },
+            ]}
+            subColumns={[
+              {
+                headerName: 'Certificate Code',
+                field: 'certificateCode',
+              },
+              {
+                headerName: 'Certificate Name',
+                field: 'certificateName',
+                // width: 200,
+              },
+            ]}
+            // error={true}
+            // touched={true}
+            // setFieldTouched={}
+            // handleBlur={(key, value) => {
+            //   setFieldTouched('certificateID', true);
+            // }}
+          />
+          <DataField
+            type="dataFieldGridDropDown"
+            title="Customer List"
+            //required
+            accessor="certificateID"
+            className="col-2"
+            valueKey="certificateCode"
+            labelKey="certificateCode"
+            value="hello"
+            onChange={() => {}}
+            options={[
+              { id: 1, certificateCode: 'hello', certificateName: 'Hii' },
+              { id: 2, certificateCode: 'hello-2', certificateName: 'Hii-2' },
+            ]}
+            subColumns={[
+              {
+                headerName: 'Certificate Code',
+                field: 'certificateCode',
+              },
+              {
+                headerName: 'Certificate Name',
+                field: 'certificateName',
+                // width: 200,
+              },
+            ]}
+            // error={true}
+            // touched={true}
+            // setFieldTouched={}
+            // handleBlur={(key, value) => {
+            //   setFieldTouched('certificateID', true);
+            // }}
+          />
+        </div>
         <DataField
           type="dataFieldGridDropDown"
-          title="Certificate"
+          title="Customer List"
+          //required
+          accessor="certificateID"
+          className="col-2"
+          valueKey="certificateCode"
+          labelKey="certificateCode"
+          value="hello"
+          onChange={() => {}}
+          options={[
+            { id: 1, certificateCode: 'hello', certificateName: 'Hii' },
+            { id: 2, certificateCode: 'hello-2', certificateName: 'Hii-2' },
+          ]}
+          subColumns={[
+            {
+              headerName: 'Certificate Code',
+              field: 'certificateCode',
+            },
+            {
+              headerName: 'Certificate Name',
+              field: 'certificateName',
+              // width: 200,
+            },
+          ]}
+          // error={true}
+          // touched={true}
+          // setFieldTouched={}
+          // handleBlur={(key, value) => {
+          //   setFieldTouched('certificateID', true);
+          // }}
+        />
+        <DataField
+          type="dataFieldGridDropDown"
+          title="Customer List"
           //required
           accessor="certificateID"
           className="col-2"
@@ -534,6 +723,38 @@ const Employee = () => {
           }}
         />
       </Modal>
+      {/* <DataField
+        type="dataFieldGridDropDown"
+        title="Customer List"
+        //required
+        accessor="certificateID"
+        className="col-2"
+        valueKey="certificateCode"
+        labelKey="certificateCode"
+        value="hello"
+        onChange={() => {}}
+        options={[
+          { id: 1, certificateCode: 'hello', certificateName: 'Hii' },
+          { id: 2, certificateCode: 'hello-2', certificateName: 'Hii-2' },
+        ]}
+        subColumns={[
+          {
+            headerName: 'Certificate Code',
+            field: 'certificateCode',
+          },
+          {
+            headerName: 'Certificate Name',
+            field: 'certificateName',
+            // width: 200,
+          },
+        ]}
+        // error={true}
+        // touched={true}
+        // setFieldTouched={}
+        // handleBlur={(key, value) => {
+        //   setFieldTouched('certificateID', true);
+        // }}
+      /> */}
     </div>
   );
 };

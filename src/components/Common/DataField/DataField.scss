@@ -38,6 +38,10 @@
       color: black;
     }
 
+    .textArea {
+      height: auto;
+    }
+
     .Select {
       font-size: 14px;
       cursor: pointer;
@@ -80,7 +84,7 @@
 
       .Select__single-value {
         color: '';
-        padding: 1rem 0rem;
+        // padding: 1rem 0rem;
       }
 
       .Select__option {
@@ -281,12 +285,12 @@
       //   background-color: var(--form-input);
       //   border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 1rem;
+      // padding: 1rem;
       font-size: 18px;
       font-weight: 400;
-      padding: 0px 11px;
+      // padding: 0px 11px;
       cursor: pointer;
-      padding-right: 4px;
+      // padding-right: 4px;
       //   height: 34px;
       background: #ebebeb;
 
@@ -295,6 +299,7 @@
 
         .popOver-btn {
           border: none;
+          border-radius: 6px;
         }
       }
 
